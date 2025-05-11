@@ -141,7 +141,7 @@ const Chat = ({ currentUser, recipient, chatId }) => {
 
         <div ref={messagesEndRef} />
       </div>
-      {istyping ? <div>{currentUser.name} is typing...</div> : <></>}
+      {istyping ? <div>{recipient.name} is typing...</div> : <></>}
       <form className="message-input-form" onSubmit={handleSendMessage}>
         <input
           type="text"
