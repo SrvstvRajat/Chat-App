@@ -36,7 +36,6 @@ const messageSchema = new mongoose.Schema(
   }
 );
 
-// Create compound index on senderId and recipientId for faster queries
 messageSchema.index({ senderId: 1 });
 
 module.exports = mongoose.model("Message", messageSchema);

@@ -17,11 +17,6 @@ const accessChat = async (req, res) => {
     .populate("user", "-password")
     .populate("latestMessage");
 
-  // isChat = await User.populate(isChat, {
-  //   path: "latestMessage.sender",
-  //   select: "name email",
-  // });
-
   if (isChat.length > 0) {
     res.send(isChat[0]);
   } else {

@@ -70,11 +70,9 @@ const Chat = ({ currentUser, recipient, chatId }) => {
         method: "GET",
       });
 
-      // setLoading(true);
       const data = await res.json();
 
       if (data) setMessages(data);
-      // setLoading(false);
 
       socket.emit("join chat", chatId);
     } catch (error) {
@@ -105,7 +103,6 @@ const Chat = ({ currentUser, recipient, chatId }) => {
     });
   });
 
-  // Handle typing indicator
   const handleTyping = (e) => {
     setNewMessage(e.target.value);
 

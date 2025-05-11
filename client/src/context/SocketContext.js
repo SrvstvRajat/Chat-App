@@ -11,7 +11,6 @@ export const SocketProvider = ({ children }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Connect to the real socket server
     const newSocket = io("http://localhost:5001");
 
     newSocket.on("connect", () => {
@@ -24,20 +23,17 @@ export const SocketProvider = ({ children }) => {
       setConnected(false);
     });
 
-    // Listen for user list updates
     newSocket.on("user_list", (userList) => {
       console.log("Received user list:", userList);
       setUsers(userList);
     });
 
-    // Listen for errors
     newSocket.on("error", (error) => {
       console.error("Socket error:", error);
     });
 
     setSocket(newSocket);
 
-    // Clean up the socket connection when the component unmounts
     return () => {
       newSocket.disconnect();
     };

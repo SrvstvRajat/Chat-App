@@ -87,7 +87,6 @@ function AppContent() {
   );
 }
 
-// App Root
 function App() {
   return (
     <SocketProvider>

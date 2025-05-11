@@ -21,10 +21,6 @@ const UserList = ({ users, currentUser, setChatHistory }) => {
       const chat = await res.json();
       if (!res.ok) throw new Error(chat.message || "Unable to access chat");
 
-      // Save chat messages/history if needed
-      // setChatHistory(chat.messages || []);
-
-      // Navigate to chat using chat._id
       const recipientUser = chat.user.filter(
         (user) => user._id !== currentUser._id
       );
