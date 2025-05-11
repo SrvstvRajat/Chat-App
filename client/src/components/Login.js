@@ -40,7 +40,7 @@ const Login = ({ onLogin }) => {
       const endpoint = isSignup ? "/users/signup" : "/users/login";
       console.log(endpoint);
 
-      const res = await fetch(`http://localhost:5001${endpoint}`, {
+      const res = await fetch(`https://chat-app-uvyv.onrender.com${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
