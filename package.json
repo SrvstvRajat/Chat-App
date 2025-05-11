@@ -1,4 +1,10 @@
 {
+
+  "scripts": {
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js",
+    "build": "npm install && npm install --prefix client && npm run build --prefix client"
+  },
   "dependencies": {
     "dot-env": "^0.0.1",
     "dotenv": "^16.5.0",

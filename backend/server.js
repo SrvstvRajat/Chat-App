@@ -5,6 +5,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const socketController = require("./controllers/socket.controller");
 require("dotenv").config();
+const path = require("path");
 
 const app = express();
 app.use(cors());
@@ -32,6 +33,21 @@ io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
 });
 socketController.initialize(io);
+
+const __dirname1 = path.dirname(path.resolve());
+console.log(__dirname1);
+console.log(path.resolve(__dirname1, "client", "build", "index.html"));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/client/build")));
+
+  app.get("/", (req, res) =>
+    res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API is running..");
+  });
+}
 
 const PORT = process.env.PORT;
 server.listen(PORT, () => {
