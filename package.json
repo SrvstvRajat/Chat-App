@@ -1,17 +1,32 @@
 {
 
   "scripts": {
-    "start": "node backend/server.js",
+
+    "start": "cd backend && node server.js",
+
     "server": "nodemon backend/server.js",
+
     "build": "npm install && npm install --prefix client && npm run build --prefix client"
+
   },
+
   "dependencies": {
+
     "dot-env": "^0.0.1",
+
     "dotenv": "^16.5.0",
+
     "express": "^5.1.0",
+
     "jsonwebtoken": "^9.0.2",
+
     "mongoose": "^8.14.2",
+
     "nodemon": "^3.1.10",
+
     "socket.io": "^4.8.1"
+
   }
+
 }
+
