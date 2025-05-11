@@ -31,7 +31,7 @@ function AppContent() {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const res = await fetch("http://localhost:5001/users");
+        const res = await fetch("https://chat-app-uvyv.onrender.com/users");
         const data = await res.json();
         setUsers(data);
       } catch (err) {

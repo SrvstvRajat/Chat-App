@@ -7,16 +7,19 @@ const UserList = ({ users, currentUser, setChatHistory }) => {
 
   const handleUserClick = async (recipient) => {
     try {
-      const res = await fetch(`http://localhost:5001/chats/accessChat`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          senderId: currentUser._id,
-          recipientId: recipient._id,
-        }),
-      });
+      const res = await fetch(
+        `https://chat-app-uvyv.onrender.com/chats/accessChat`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            senderId: currentUser._id,
+            recipientId: recipient._id,
+          }),
+        }
+      );
 
       const chat = await res.json();
       if (!res.ok) throw new Error(chat.message || "Unable to access chat");

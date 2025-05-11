@@ -42,7 +42,7 @@ const Chat = ({ currentUser, recipient, chatId }) => {
       timestamp: new Date().toISOString(),
     };
 
-    const res = await fetch(`http://localhost:5001/messages`, {
+    const res = await fetch(`https://chat-app-uvyv.onrender.com/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(messageData),
@@ -59,9 +59,12 @@ const Chat = ({ currentUser, recipient, chatId }) => {
 
   const fetchMessages = async () => {
     try {
-      const res = await fetch(`http://localhost:5001/messages/${chatId}`, {
-        method: "GET",
-      });
+      const res = await fetch(
+        `https://chat-app-uvyv.onrender.com/messages/${chatId}`,
+        {
+          method: "GET",
+        }
+      );
 
       const data = await res.json();
       if (recipient.status === "online") setIsRecipientOnline(true);
