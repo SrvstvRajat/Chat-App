@@ -10,20 +10,18 @@ function initialize(io) {
 
     socket.on("login", async (u) => {
       try {
-        const user = await User.findByIdAndUpdate(u._id.toString(), {
-          status: "online",
-        });
+        const user = await User.findByIdAndUpdate(
+          u._id.toString(),
+          {
+            status: "online",
+          },
+          { new: true }
+        );
 
         onlineUsers.set(user._id.toString(), socket.id);
         userSockets.set(socket.id, user._id.toString());
-
-        socket.emit("login_success", {
-          id: user._id,
-          status: user.status,
-        });
-
         io.emit("user_status", {
-          userId: user._id.toString(),
+          userId: user._id,
           status: "online",
         });
       } catch (error) {
@@ -55,41 +53,35 @@ function initialize(io) {
     socket.on("typing", (room) => socket.in(room).emit("typing"));
     socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
 
-    socket.on("check_user_status", async ({ userId }) => {
-      try {
-        const isOnline = onlineUsers.has(userId);
-
-        socket.emit("user_status", {
-          userId,
-          status: isOnline ? "online" : "offline",
-        });
-      } catch (error) {
-        console.error("Status check error:", error);
-      }
-    });
-
     socket.on("disconnect", async () => {
       try {
         const userId = userSockets.get(socket.id);
-
-        if (userId) {
-          await UserService.updateUserStatus(userId, "offline");
-
-          onlineUsers.delete(userId);
-          userSockets.delete(socket.id);
-          typingUsers.delete(userId);
-
-          io.emit("user_status", {
-            userId,
+        console.log("USER DISCONNECTED");
+        const user = await User.findByIdAndUpdate(
+          userId,
+          {
             status: "offline",
-          });
-        }
+          },
+          { new: true }
+        );
+        console.log("user:", user);
 
+        socket.emit("offline_success", {
+          id: user._id,
+          status: user.status,
+        });
+        console.log(user.status);
+
+        io.emit("user_status", {
+          userId: user._id,
+          status: user.status,
+        });
         console.log(`User disconnected: ${socket.id}`);
       } catch (error) {
         console.error("Disconnect error:", error);
       }
     });
+    socket.off("setup", async () => {});
   });
 }
 

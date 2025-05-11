@@ -18,22 +18,15 @@ const Chat = ({ currentUser, recipient, chatId }) => {
   }, [messages]);
 
   useEffect(() => {
-    if (!socket) return;
+    const handleStatus = ({ userId, status }) => {
+      console.log("h bjuinn", userId, status, recipient._id);
 
-    const handleUserStatus = ({ userId, status }) => {
-      if (userId === recipient.id) {
+      if (userId === recipient._id) {
         setIsRecipientOnline(status === "online");
       }
     };
-
-    socket.on("login_success", handleUserStatus);
-
-    setIsRecipientOnline(true);
-
-    return () => {
-      socket.off("user_status", handleUserStatus);
-    };
-  }, [socket, recipient.id, isRecipientOnline]);
+    socket.on("user_status", handleStatus);
+  }, [socket, recipient._id, isRecipientOnline]);
 
   const handleSendMessage = async (e) => {
     if (e.key === "Enter" && newMessage) {
@@ -71,6 +64,7 @@ const Chat = ({ currentUser, recipient, chatId }) => {
       });
 
       const data = await res.json();
+      if (recipient.status === "online") setIsRecipientOnline(true);
 
       if (data) setMessages(data);
 
